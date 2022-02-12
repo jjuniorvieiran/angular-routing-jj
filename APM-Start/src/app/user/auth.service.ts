@@ -8,6 +8,7 @@ import { MessageService } from '../messages/message.service';
 })
 export class AuthService {
   currentUser: User;
+  redirectUrl: string;  //this will retain the the original users url. and after we will use it.
 
   get isLoggedIn(): boolean {
     return !!this.currentUser;
