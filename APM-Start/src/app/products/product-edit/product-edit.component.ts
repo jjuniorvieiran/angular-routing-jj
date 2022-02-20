@@ -16,7 +16,24 @@ export class ProductEditComponent implements OnInit{
 
   private dataIsValid: { [key: string]: boolean } = {};
 
-  product: Product;
+  get isDirty(): boolean {
+    return JSON.stringify(this.originalProduct) !== JSON.stringify(this.currentProduct);
+  }
+
+  private currentProduct: Product;
+  private originalProduct: Product;
+
+  get product(): Product {
+    return this.currentProduct;
+  }
+  set product(value: Product) {
+    console.log('produtc value' + value);
+    this.currentProduct = value;
+    // Clone the object to retain a copy only when load the page for the first time
+    // when change value in the page, only changes in currentProduct
+    this.originalProduct = value ? { ...value } : null;
+  }
+
 
   constructor(private productService: ProductService,
               private messageService: MessageService,
@@ -67,6 +84,12 @@ export class ProductEditComponent implements OnInit{
     return (this.dataIsValid &&
       Object.keys(this.dataIsValid).every(d => this.dataIsValid[d] === true));
   }
+  
+  reset(): void {
+    this.dataIsValid = null;
+    this.currentProduct = null;
+    this.originalProduct = null;
+  }
 
   saveProduct(): void {
     if (true === true) {
@@ -90,6 +113,7 @@ export class ProductEditComponent implements OnInit{
     if (message) {
       this.messageService.addMessage(message);
     }
+    this.reset();
 
     // Navigate back to the product list
     this.router.navigate(['/products']);

@@ -3,6 +3,7 @@ import {NgModule} from '@angular/core';
 import {ProductListComponent} from './product-list.component';
 import {ProductDetailComponent} from './product-detail.component';
 import {ProductEditComponent} from './product-edit/product-edit.component';
+import {ProductEditGuard} from './product-edit/product-edit.guard';
 
 import {RouterModule} from '@angular/router';
 
@@ -29,6 +30,7 @@ import{AuthGuard} from '../user/auth.guard';
           {
             path: ':id/edit',
             component: ProductEditComponent,
+            canDeactivate: [ProductEditGuard],
             resolve: {resolvedData: ProductResolver},
             children: [
               {
