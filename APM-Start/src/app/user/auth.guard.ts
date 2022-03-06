@@ -6,8 +6,7 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthGuard implements CanActivate
-// , CanLoad 
+export class AuthGuard implements CanActivate, CanLoad 
 {
 
   constructor(private authService: AuthService,
@@ -21,9 +20,9 @@ export class AuthGuard implements CanActivate
 
   // Use the segments to build the full route
   // when using canLoad
-  // canLoad(route: Route, segments: UrlSegment[]): boolean {
-  //   return this.checkLoggedIn(segments.join('/'));
-  // }
+  canLoad(route: Route, segments: UrlSegment[]): boolean {
+    return this.checkLoggedIn(route.path);
+  }
 
   checkLoggedIn(url: string): boolean {
     if (this.authService.isLoggedIn) {
